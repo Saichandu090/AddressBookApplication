@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/addressBook")
+@CrossOrigin("*")
 public class AddressBookController
 {
     @Autowired

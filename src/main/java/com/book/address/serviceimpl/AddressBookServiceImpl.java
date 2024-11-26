@@ -17,7 +17,7 @@ public class AddressBookServiceImpl implements AddressBookService
     @Autowired
     private AddressBookRepository addressBookRepository;
 
-    private final AddressBookMapper addressBookMapper=new AddressBookMapper();
+    private  AddressBookMapper addressBookMapper=new AddressBookMapper();
 
     @Override
     public AddressBook addBook(AddressBookRequestDTO requestDTO)

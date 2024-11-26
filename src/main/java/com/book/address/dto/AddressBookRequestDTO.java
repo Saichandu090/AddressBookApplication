@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddressBookRequestDTO
 {
-    @Pattern(regexp ="^[A-Z].$")
     @NotNull
     private String fullName;
     private Long phoneNumber;
