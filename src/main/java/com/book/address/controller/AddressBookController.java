@@ -18,30 +18,30 @@ public class AddressBookController
     @PostMapping("/addBook")
     public ResponseEntity<?> addBook(@RequestBody AddressBookRequestDTO requestDTO)
     {
-        return new ResponseEntity<>(addressBookService.addBook(requestDTO), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(addressBookService.addBook(requestDTO), HttpStatus.OK);
     }
 
     @GetMapping("/byFullName/{fullName}")
     public ResponseEntity<?> findByFullName(@PathVariable String fullName)
     {
-        return new ResponseEntity<>(addressBookService.findByName(fullName),HttpStatus.FOUND);
+        return new ResponseEntity<>(addressBookService.findByName(fullName),HttpStatus.OK);
     }
 
     @GetMapping("/allBooks")
     public ResponseEntity<?> getAllBooks()
     {
-        return new ResponseEntity<>(addressBookService.getAllBooks(),HttpStatus.FOUND);
+        return new ResponseEntity<>(addressBookService.getAllBooks(),HttpStatus.OK);
     }
 
-    @PutMapping("/updateBook/{fullName}")
-    public ResponseEntity<?> updateBook(@PathVariable String fullName,@RequestBody AddressBookRequestDTO requestDTO)
+    @PutMapping("/updateBook/{id}")
+    public ResponseEntity<?> updateBook(@PathVariable int id,@RequestBody AddressBookRequestDTO requestDTO)
     {
-        return new ResponseEntity<>(addressBookService.updateBook(fullName,requestDTO),HttpStatus.OK);
+        return new ResponseEntity<>(addressBookService.updateBook(id,requestDTO),HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteBook/{fullName}")
-    public ResponseEntity<?> deleteBook(@PathVariable String fullName)
+    @DeleteMapping("/deleteBook/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable int id)
     {
-        return new ResponseEntity<>(addressBookService.deleteBook(fullName),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(addressBookService.deleteBook(id),HttpStatus.OK);
     }
 }

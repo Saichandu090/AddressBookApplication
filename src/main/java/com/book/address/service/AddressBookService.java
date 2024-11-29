@@ -14,7 +14,7 @@ public interface AddressBookService
 
     public List<AddressBook> getAllBooks();
 
-    public AddressBook updateBook(String fullName,AddressBookRequestDTO requestDTO);
+    public AddressBook updateBook(int id,AddressBookRequestDTO requestDTO);
 
-    public String deleteBook(String fullName);
+    public String deleteBook(int id);
 }
