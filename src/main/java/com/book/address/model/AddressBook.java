@@ -1,9 +1,6 @@
 package com.book.address.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -23,4 +20,7 @@ public class AddressBook
     private String city;
     private String state;
     private int zipCode;
+
+    @ManyToOne
+    private User user;
 }

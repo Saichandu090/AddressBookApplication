@@ -9,6 +9,7 @@ import com.book.address.model.User;
 import com.book.address.repository.UserRepository;
 import com.book.address.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,8 @@ public class UserServiceImpl implements UserService
 {
     @Autowired
     private UserRepository userRepository;
+
+    private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
 
     private final UserToUserResMapper userResponse=new UserToUserResMapper();
 
@@ -29,7 +32,7 @@ public class UserServiceImpl implements UserService
             User user = new User();
             user.setEmail(registerDTO.getEmail());
             user.setUserName(registerDTO.getUserName());
-            user.setPassword(registerDTO.getPassword());
+            user.setPassword(encoder.encode(registerDTO.getPassword()));
             return userResponse.convertUser(userRepository.save(user));
         }
     }
