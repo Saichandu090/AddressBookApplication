@@ -11,7 +11,8 @@ import java.util.List;
 
 public class UserPrinciple implements UserDetails
 {
-    private final User user;
+    @Autowired
+    private User user;
 
     public UserPrinciple(User user)
     {

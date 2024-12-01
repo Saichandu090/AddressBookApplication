@@ -2,14 +2,10 @@ package com.book.address.controller;
 
 import com.book.address.dto.UserLoginDTO;
 import com.book.address.dto.UserRegisterDTO;
-import com.book.address.repository.UserRepository;
 import com.book.address.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,9 +16,6 @@ public class LoginController
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO registerDTO)
     {
@@ -32,13 +25,6 @@ public class LoginController
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO loginDTO)
     {
-        Authentication authentication=
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserName(),loginDTO.getPassword()));
-        if(authentication.isAuthenticated()) {
-            return new ResponseEntity<>(userService.loginUser(loginDTO), HttpStatus.OK);
-        }
-        else {
-            return null;
-        }
+        return new ResponseEntity<>(userService.loginUser(loginDTO),HttpStatus.OK);
     }
 }

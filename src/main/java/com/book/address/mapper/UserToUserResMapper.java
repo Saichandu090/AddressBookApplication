@@ -22,21 +22,12 @@ public class UserToUserResMapper
         }
     }
 
-    public UserResponseDTO login(User user, UserLoginDTO loginDTO)
+    public UserResponseDTO login(UserLoginDTO loginDTO, String token)
     {
-        if(user.getUserName().equals(loginDTO.getUserName()) && user.getPassword().equals(loginDTO.getPassword()))
-        {
-            UserResponseDTO responseDTO=new UserResponseDTO();
-            responseDTO.setResult(true);
-            responseDTO.setMessage("Logged in Successfully");
-            return responseDTO;
-        }
-        else{
-            UserResponseDTO responseDTO=new UserResponseDTO();
-            responseDTO.setResult(false);
-            responseDTO.setMessage("Wrong Credentials");
-            return responseDTO;
-        }
+        UserResponseDTO dto=new UserResponseDTO();
+        dto.setResult(true);
+        dto.setMessage(token);
+        return dto;
     }
 
     public UserResponseDTO userAlreadyExists()
