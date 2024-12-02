@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/addressBook")
-@CrossOrigin("*")
+@CrossOrigin(allowedHeaders = "*",origins = "*")
 public class AddressBookController
 {
     @Autowired
@@ -58,6 +58,7 @@ public class AddressBookController
     @GetMapping("/allBooks")
     public ResponseEntity<?> getAllBooks(@RequestHeader("Authorization") String authHeader)
     {
+        System.out.println(authHeader);
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null)
         {
