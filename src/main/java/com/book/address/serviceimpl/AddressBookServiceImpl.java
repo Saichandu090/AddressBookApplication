@@ -46,9 +46,15 @@ public class AddressBookServiceImpl implements AddressBookService
     }
 
     @Override
-    public AddressBook findByName(String fullName)
+    public AddressBook findByName(String fullName,String userName)
     {
-        return addressBookRepository.findByFullName(fullName).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
+        User user=userRepository.findByUserName(userName).orElseThrow(()->new UserNotFoundException("User Not Found"));
+        AddressBook addressBook=addressBookRepository.findByFullName(fullName).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
+        if(user.getAddressBookList().contains(addressBook))
+        {
+            return addressBook;
+        }
+        return null;
     }
 
     @Override
@@ -59,11 +65,16 @@ public class AddressBookServiceImpl implements AddressBookService
     }
 
     @Override
-    public AddressBook updateBook(int id, AddressBookRequestDTO requestDTO)
+    public AddressBook updateBook(int id, AddressBookRequestDTO requestDTO,String userName)
     {
+        User user=userRepository.findByUserName(userName).orElseThrow(()->new UserNotFoundException("User Not Found"));
         AddressBook book=addressBookRepository.findById(id).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
-        AddressBook updatedBook=addressBookMapper.updateBook(book,requestDTO);
-        return addressBookRepository.save(updatedBook);
+        if(user.getAddressBookList().contains(book)) {
+            AddressBook updatedBook = addressBookMapper.updateBook(book, requestDTO);
+            return addressBookRepository.save(updatedBook);
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -88,7 +99,7 @@ public class AddressBookServiceImpl implements AddressBookService
     }
 
     @Override
-    public boolean validateUserToken(String authHeader)
+    public UserDetails validateUserToken(String authHeader)
     {
         String token=null;
         String userName=null;
@@ -99,8 +110,8 @@ public class AddressBookServiceImpl implements AddressBookService
         }
         UserDetails userDetails=context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
         if(jwtService.validateToken(token,userDetails))
-            return true;
+            return userDetails;
         else
-            return false;
+            return null;
     }
 }

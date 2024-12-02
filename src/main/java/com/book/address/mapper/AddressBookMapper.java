@@ -1,10 +1,10 @@
 package com.book.address.mapper;
 
 import com.book.address.dto.AddressBookRequestDTO;
+import com.book.address.dto.UserResponseDTO;
 import com.book.address.model.AddressBook;
 import com.book.address.model.User;
 
-import java.util.List;
 
 public class AddressBookMapper
 {
@@ -30,6 +30,14 @@ public class AddressBookMapper
         book.setState(requestDTO.getState());
         book.setZipCode(requestDTO.getZipCode());
         return book;
+    }
+
+    public UserResponseDTO userDetailsFailure()
+    {
+        UserResponseDTO dto=new UserResponseDTO();
+        dto.setResult(false);
+        dto.setMessage("Invalid User Details");
+        return dto;
     }
 
 }
