@@ -5,6 +5,7 @@ import com.book.address.dto.UserResponseDTO;
 import com.book.address.mapper.AddressBookMapper;
 import com.book.address.model.AddressBook;
 import com.book.address.service.AddressBookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AddressBookController
     private AddressBookMapper addressBookMapper;
 
     @PostMapping("/addBook")
-    public ResponseEntity<?> addBook(@RequestHeader("Authorization") String authHeader,@RequestBody AddressBookRequestDTO requestDTO)
+    public ResponseEntity<?> addBook(@RequestHeader("Authorization") String authHeader,@Valid @RequestBody AddressBookRequestDTO requestDTO)
     {
         System.out.println(authHeader);
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
@@ -68,7 +69,7 @@ public class AddressBookController
     }
 
     @PutMapping("/updateBook/{id}")
-    public ResponseEntity<?> updateBook(@RequestHeader("Authorization") String authHeader,@PathVariable int id,@RequestBody AddressBookRequestDTO requestDTO)
+    public ResponseEntity<?> updateBook(@RequestHeader("Authorization") String authHeader,@PathVariable int id,@Valid @RequestBody AddressBookRequestDTO requestDTO)
     {
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null) {
