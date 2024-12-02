@@ -27,9 +27,26 @@ public class AddressBookController
     ApplicationContext context;
 
     @PostMapping("/addBook")
-    public ResponseEntity<?> addBook(@RequestBody AddressBookRequestDTO requestDTO)
+    public ResponseEntity<?> addBook(@RequestHeader("Authorization") String authHeader,@RequestBody AddressBookRequestDTO requestDTO)
     {
-        return new ResponseEntity<>(addressBookService.addBook(requestDTO), HttpStatus.OK);
+        String token=null;
+        String userName=null;
+        if(authHeader!=null && authHeader.startsWith("Bearer "))
+        {
+            token=authHeader.substring(7);
+            userName=jwtService.extractUserName(token);
+        }
+        UserDetails userDetails=context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
+        if(jwtService.validateToken(token,userDetails))
+        {
+            return new ResponseEntity<>(addressBookService.addBook(requestDTO,userName), HttpStatus.OK);
+        }
+        else{
+            UserResponseDTO dto=new UserResponseDTO();
+            dto.setResult(false);
+            dto.setMessage("Book Not Added");
+            return new ResponseEntity<>(dto,HttpStatus.OK);
+        }
     }
 
     @GetMapping("/byFullName/{fullName}")
@@ -51,7 +68,7 @@ public class AddressBookController
         UserDetails userDetails=context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
         if(jwtService.validateToken(token,userDetails))
         {
-            return new ResponseEntity<>(addressBookService.getAllBooks(), HttpStatus.OK);
+            return new ResponseEntity<>(addressBookService.getAllBooks(userDetails.getUsername()), HttpStatus.OK);
         }
         else{
             UserResponseDTO dto=new UserResponseDTO();
@@ -68,8 +85,25 @@ public class AddressBookController
     }
 
     @DeleteMapping("/deleteBook/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable int id)
+    public ResponseEntity<?> deleteBook(@RequestHeader("Authorization") String authHeader,@PathVariable int id)
     {
-        return new ResponseEntity<>(addressBookService.deleteBook(id),HttpStatus.OK);
+        String token=null;
+        String userName=null;
+        if(authHeader!=null && authHeader.startsWith("Bearer "))
+        {
+            token=authHeader.substring(7);
+            userName=jwtService.extractUserName(token);
+        }
+        UserDetails userDetails=context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
+        if(jwtService.validateToken(token,userDetails))
+        {
+            return new ResponseEntity<>(addressBookService.deleteBook(id,userName),HttpStatus.OK);
+        }
+        else{
+            UserResponseDTO dto=new UserResponseDTO();
+            dto.setResult(false);
+            dto.setMessage("Deletion Failed");
+            return new ResponseEntity<>(dto,HttpStatus.OK);
+        }
     }
 }

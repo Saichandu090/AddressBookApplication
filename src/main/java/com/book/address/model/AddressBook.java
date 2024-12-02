@@ -1,5 +1,6 @@
 package com.book.address.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,8 @@ public class AddressBook
     private String state;
     private int zipCode;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "user_id",nullable = false)
+    @JsonIgnore
     private User user;
 }

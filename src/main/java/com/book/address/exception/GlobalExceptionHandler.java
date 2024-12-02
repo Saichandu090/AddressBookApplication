@@ -17,7 +17,10 @@ public class GlobalExceptionHandler
     @ExceptionHandler(AddressBookNotFoundException.class)
     public ResponseEntity<?> addressBookNotFound(AddressBookNotFoundException e)
     {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        UserResponseDTO responseDTO=new UserResponseDTO();
+        responseDTO.setResult(false);
+        responseDTO.setMessage(e.getMessage());
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
