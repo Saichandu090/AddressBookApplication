@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,9 @@ public class SecurityConfiguration
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private CustomCorsConfiguration customCorsConfiguration;
 
     @Bean
     public JWTFilter jwtFilter()
@@ -48,12 +53,12 @@ public class SecurityConfiguration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        return http.csrf(AbstractHttpConfigurer::disable)
+        return http.csrf(request->request.disable())
                 .authorizeHttpRequests(request->request.requestMatchers("userDetails/register","userDetails/login").permitAll()
                         .anyRequest().authenticated())
+                .cors(c -> c.configurationSource(customCorsConfiguration))
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

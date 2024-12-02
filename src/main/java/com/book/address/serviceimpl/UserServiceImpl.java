@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService
     @Override
     public UserResponseDTO loginUser(UserLoginDTO loginDTO)
     {
+        User user=userRepository.findByUserName(loginDTO.getUserName()).orElseThrow(()->new UserNotFoundException("User Not Found"));
         Authentication authentication=
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserName(),loginDTO.getPassword()));
         if(authentication.isAuthenticated())

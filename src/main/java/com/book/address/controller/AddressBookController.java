@@ -5,9 +5,7 @@ import com.book.address.dto.UserResponseDTO;
 import com.book.address.mapper.AddressBookMapper;
 import com.book.address.model.AddressBook;
 import com.book.address.service.AddressBookService;
-import com.book.address.serviceimpl.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +24,7 @@ public class AddressBookController
     @PostMapping("/addBook")
     public ResponseEntity<?> addBook(@RequestHeader("Authorization") String authHeader,@RequestBody AddressBookRequestDTO requestDTO)
     {
+        System.out.println(authHeader);
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null)
         {
@@ -58,7 +57,6 @@ public class AddressBookController
     @GetMapping("/allBooks")
     public ResponseEntity<?> getAllBooks(@RequestHeader("Authorization") String authHeader)
     {
-        System.out.println(authHeader);
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null)
         {
