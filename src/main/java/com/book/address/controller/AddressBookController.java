@@ -32,7 +32,7 @@ public class AddressBookController
             return new ResponseEntity<>(addressBookService.addBook(requestDTO, userDetails.getUsername()), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.OK);
+            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.FORBIDDEN);
         }
     }
 
@@ -51,7 +51,7 @@ public class AddressBookController
                 return new ResponseEntity<>(dto,HttpStatus.OK);
             }
         }else{
-            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.OK);
+            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.FORBIDDEN);
         }
     }
 
@@ -64,7 +64,7 @@ public class AddressBookController
             return new ResponseEntity<>(addressBookService.getAllBooks(userDetails.getUsername()), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.OK);
+            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.FORBIDDEN);
         }
     }
 
@@ -83,7 +83,7 @@ public class AddressBookController
                 return new ResponseEntity<>(dto,HttpStatus.OK);
             }
         }else{
-            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.OK);
+            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.FORBIDDEN);
         }
     }
 
@@ -96,7 +96,7 @@ public class AddressBookController
             return new ResponseEntity<>(addressBookService.deleteBook(id, userDetails.getUsername()),HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.OK);
+            return new ResponseEntity<>(addressBookMapper.userDetailsFailure(),HttpStatus.FORBIDDEN);
         }
     }
 }
