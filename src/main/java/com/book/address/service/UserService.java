@@ -1,6 +1,5 @@
 package com.book.address.service;
 
-import com.book.address.dto.LoginResponseDTO;
 import com.book.address.dto.UserLoginDTO;
 import com.book.address.dto.UserRegisterDTO;
 import com.book.address.dto.UserResponseDTO;

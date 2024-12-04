@@ -97,12 +97,12 @@ public class AddressBookServiceImpl implements AddressBookService
             addressBookRepository.delete(book);
             UserResponseDTO dto=new UserResponseDTO();
             dto.setResult(true);
-            dto.setMessage("Address Book with name " + id + " has been deleted!!");
+            dto.setMessage("Address Book with name " + book.getFullName() + " has been deleted!!");
             return dto;
         }else{
             UserResponseDTO dto=new UserResponseDTO();
             dto.setResult(false);
-            dto.setMessage("Address Book with id " + id + " has not found!!");
+            dto.setMessage("Address Book with name " + book.getFullName() + " has not found!!");
             return dto;
         }
     }

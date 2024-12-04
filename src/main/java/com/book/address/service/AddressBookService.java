@@ -4,7 +4,6 @@ import com.book.address.dto.AddressBookRequestDTO;
 import com.book.address.dto.UserResponseDTO;
 import com.book.address.model.AddressBook;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

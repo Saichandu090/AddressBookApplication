@@ -25,7 +25,6 @@ public class AddressBookController
     @PostMapping("/addBook")
     public ResponseEntity<?> addBook(@RequestHeader("Authorization") String authHeader,@Valid @RequestBody AddressBookRequestDTO requestDTO)
     {
-        System.out.println(authHeader);
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null)
         {
