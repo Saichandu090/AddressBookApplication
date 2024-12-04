@@ -36,12 +36,12 @@ public class AddressBookController
         }
     }
 
-    @GetMapping("/byFullName/{fullName}")
-    public ResponseEntity<?> findByFullName(@RequestHeader("Authorization") String authHeader,@PathVariable String fullName)
+    @GetMapping("/byId/{id}")
+    public ResponseEntity<?> findByFullName(@RequestHeader("Authorization") String authHeader,@PathVariable int id)
     {
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null) {
-            AddressBook ad=addressBookService.findByName(fullName,userDetails.getUsername());
+            AddressBook ad=addressBookService.findById(id,userDetails.getUsername());
             if(ad!=null)
                 return new ResponseEntity<>(ad, HttpStatus.OK);
             else {
@@ -73,7 +73,7 @@ public class AddressBookController
     {
         UserDetails userDetails= addressBookService.validateUserToken(authHeader);
         if(userDetails!=null) {
-            AddressBook ad=addressBookService.updateBook(id, requestDTO,userDetails.getUsername());
+            UserResponseDTO ad=addressBookService.updateBook(id, requestDTO,userDetails.getUsername());
             if(ad!=null){
                  return new ResponseEntity<>(ad, HttpStatus.OK);
             }else{

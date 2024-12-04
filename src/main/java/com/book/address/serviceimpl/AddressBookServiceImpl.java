@@ -46,10 +46,10 @@ public class AddressBookServiceImpl implements AddressBookService
     }
 
     @Override
-    public AddressBook findByName(String fullName,String userName)
+    public AddressBook findById(int id,String userName)
     {
         User user=userRepository.findByUserName(userName).orElseThrow(()->new UserNotFoundException("User Not Found"));
-        AddressBook addressBook=addressBookRepository.findByFullName(fullName).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
+        AddressBook addressBook=addressBookRepository.findById(id).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
         if(user.getAddressBookList().contains(addressBook))
         {
             return addressBook;
@@ -65,15 +65,24 @@ public class AddressBookServiceImpl implements AddressBookService
     }
 
     @Override
-    public AddressBook updateBook(int id, AddressBookRequestDTO requestDTO,String userName)
+    public UserResponseDTO updateBook(int id, AddressBookRequestDTO requestDTO,String userName)
     {
         User user=userRepository.findByUserName(userName).orElseThrow(()->new UserNotFoundException("User Not Found"));
         AddressBook book=addressBookRepository.findById(id).orElseThrow(()->new AddressBookNotFoundException("Book Not Found 404"));
-        if(user.getAddressBookList().contains(book)) {
+        if(user.getAddressBookList().contains(book))
+        {
             AddressBook updatedBook = addressBookMapper.updateBook(book, requestDTO);
-            return addressBookRepository.save(updatedBook);
-        }else{
-            return null;
+            addressBookRepository.save(updatedBook);
+            UserResponseDTO responseDTO=new UserResponseDTO();
+            responseDTO.setResult(true);
+            responseDTO.setMessage("Book Updated Successfully");
+            return responseDTO;
+            }
+        else {
+            UserResponseDTO responseDTO=new UserResponseDTO();
+            responseDTO.setResult(false);
+            responseDTO.setMessage("Book not  Updated!!");
+            return responseDTO;
         }
     }
 

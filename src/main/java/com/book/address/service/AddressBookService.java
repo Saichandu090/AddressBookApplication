@@ -12,11 +12,11 @@ public interface AddressBookService
 {
     public AddressBook addBook(AddressBookRequestDTO requestDTO,String userName);
 
-    public AddressBook findByName(String fullName,String userName);
+    public AddressBook findById(int id,String userName);
 
     public List<AddressBook> getAllBooks(String userName);
 
-    public AddressBook updateBook(int id,AddressBookRequestDTO requestDTO,String userName);
+    public UserResponseDTO updateBook(int id,AddressBookRequestDTO requestDTO,String userName);
 
     public UserResponseDTO deleteBook(int id, String userName);
 
